@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Dev Squad | Strategic Hub 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bdo: {
+                            blue: '#00A0F0',
+                            cyan: '#00E0F0',
+                            navy: '#0c4a6e',
+                            magenta: '#F000A0',
+                            green: '#00F0B5',
+                            slate: '#f8fafc'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        .nav-link.active { color: #00A0F0; border-bottom: 2px solid #00A0F0; }
+        .chart-wrapper { position: relative; height: 300px; width: 100%; }
+        .metric-card { transition: transform 0.2s; }
+        .metric-card:hover { transform: translateY(-5px); }
+        
+        /* Timeline Specifics */
+        .timeline-line {
+            position: absolute;
+            left: 2rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e2e8f0;
+            z-index: 0;
+        }
+        @media (min-width: 768px) {
+            .timeline-line { left: 50%; transform: translateX(-50%); }
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center gap-3">
+                    <div class="w-8 h-8 bg-bdo-blue rounded-lg flex items-center justify-center text-white font-bold">WT</div>
+                    <span class="font-bold text-xl tracking-tight text-gray-900">Web Dev<span class="text-bdo-blue"> Team</span></span>
+                </div>
+                <div class="hidden lg:flex space-x-6">
+                    <a href="#mission" class="nav-link text-gray-500 hover:text-bdo-blue px-2 py-2 font-medium text-xs uppercase tracking-wide transition">Mission</a>
+                    <a href="#mandate" class="nav-link text-gray-500 hover:text-bdo-blue px-2 py-2 font-medium text-xs uppercase tracking-wide transition">Mandate</a>
+                    <a href="#committee" class="nav-link text-gray-500 hover:text-bdo-blue px-2 py-2 font-medium text-xs uppercase tracking-wide transition">Steering</a>
+                    <a href="#roadmap" class="nav-link text-gray-500 hover:text-bdo-blue px-2 py-2 font-medium text-xs uppercase tracking-wide transition">Roadmap</a>
+                    <a href="#tech" class="nav-link text-gray-500 hover:text-bdo-blue px-2 py-2 font-medium text-xs uppercase tracking-wide transition">Tech</a>
+                    <a href="#governance" class="nav-link text-gray-500 hover:text-bdo-blue px-2 py-2 font-medium text-xs uppercase tracking-wide transition">Governance</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="mission" class="pt-32 pb-20 bg-gradient-to-br from-gray-50 via-white to-blue-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-blue-100 text-bdo-blue text-xs font-bold uppercase tracking-wider mb-4">12-Month Strategy</span>
+            <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 tracking-tight">
+                From Cost Center to <span class="text-transparent bg-clip-text bg-gradient-to-r from-bdo-blue to-bdo-magenta">Value Driver</span>
+            </h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-10">
+                Transitioning to a high-velocity, royalty-free Azure stack. We are eliminating legacy debt, productizing internal tools, and opening new revenue streams.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                <div class="metric-card bg-white p-6 rounded-2xl shadow-lg border-t-4 border-bdo-green">
+                    <div class="text-gray-500 text-sm font-semibold uppercase mb-2">Velocity Increase</div>
+                    <div class="text-4xl font-bold text-gray-900">+30%</div>
+                    <div class="text-xs text-gray-400 mt-2">MVP Lead Time (3m to 2m)</div>
+                </div>
+                <div class="metric-card bg-white p-6 rounded-2xl shadow-lg border-t-4 border-bdo-blue">
+                    <div class="text-gray-500 text-sm font-semibold uppercase mb-2">Uptime Target</div>
+                    <div class="text-4xl font-bold text-gray-900">99.9%</div>
+                    <div class="text-xs text-gray-400 mt-2">Business Hours SLA</div>
+                </div>
+                <div class="metric-card bg-white p-6 rounded-2xl shadow-lg border-t-4 border-bdo-magenta">
+                    <div class="text-gray-500 text-sm font-semibold uppercase mb-2">Internal CSAT</div>
+                    <div class="text-4xl font-bold text-gray-900">&gt; 8/10</div>
+                    <div class="text-xs text-gray-400 mt-2">Consumer-Grade UX</div>
+                </div>
+                <div class="metric-card bg-white p-6 rounded-2xl shadow-lg border-t-4 border-bdo-cyan">
+                    <div class="text-gray-500 text-sm font-semibold uppercase mb-2">FinOps Goal</div>
+                    <div class="text-xl font-bold text-gray-900">Exit Outsystems</div>
+                    <div class="text-xs text-gray-400 mt-2">Reduce Licensing OPEX</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="mandate" class="py-16 bg-white border-y border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900">Mandate & Shared Responsibilities</h2>
+                <p class="text-gray-600 mt-2">Defining where our autonomy ends and collaboration begins.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="bg-blue-50 p-8 rounded-2xl border border-blue-100 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-bdo-blue mb-4"><i class="fas fa-rocket mr-2"></i> Core Responsibilities</h3>
+                        <p class="text-gray-700 mb-6 italic">
+                            "The team is responsible for the end-to-end lifecycle of web application features. This encompasses designing, building, testing, deploying, and maintaining solutions."
+                        </p>
+                        <div class="space-y-4">
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-blue-100 flex items-start">
+                                <div class="flex-shrink-0">
+                                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-bdo-blue">
+                                        <i class="fas fa-layer-group text-lg"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-gray-900 text-sm uppercase tracking-wide">Full-Stack Delivery</h4>
+                                    <p class="text-sm text-gray-600 mt-1 leading-snug">
+                                        Frontend UI, Backend APIs, and integrations (data & third-party).
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-sm border border-blue-100 flex items-start">
+                                <div class="flex-shrink-0">
+                                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-green-600">
+                                        <i class="fas fa-shield text-lg"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-gray-900 text-sm uppercase tracking-wide">Quality & Standards</h4>
+                                    <p class="text-sm text-gray-600 mt-1 leading-snug">
+                                        Ensuring security, performance, observability, and automated testing via CI/CD and code reviews.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-8 rounded-2xl border border-gray-100">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4"><i class="fas fa-handshake mr-2"></i> Shared Responsibilities</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                        <div class="p-3 bg-white rounded shadow-sm">
+                            <strong class="block text-gray-900">IT / Security</strong>
+                            <span class="text-gray-500">Sign-off, AD/SSO, Access Controls.</span>
+                        </div>
+                        <div class="p-3 bg-white rounded shadow-sm">
+                            <strong class="block text-gray-900">Integrations Squad</strong>
+                            <span class="text-gray-500">API Gateways, Microservices (Go).</span>
+                        </div>
+                        <div class="p-3 bg-white rounded shadow-sm">
+                            <strong class="block text-gray-900">Data Team</strong>
+                            <span class="text-gray-500">Modeling, Reporting, Validation.</span>
+                        </div>
+                        <div class="p-3 bg-white rounded shadow-sm">
+                            <strong class="block text-gray-900">AI Team</strong>
+                            <span class="text-gray-500">Model selection, Fairness/Privacy.</span>
+                        </div>
+                        <div class="p-3 bg-white rounded shadow-sm col-span-1 sm:col-span-2">
+                            <strong class="block text-gray-900">Digital Advisory</strong>
+                            <span class="text-gray-500">Governance & Stakeholder Management.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="committee" class="py-16 bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white">The Steering Committee</h2>
+                <p class="text-gray-400 mt-2">Primary sponsors meeting quarterly to approve roadmap & budget.</p>
+            </div>
+            <div class="flex flex-col items-center space-y-8 relative">
+                <div class="absolute top-12 bottom-12 w-0.5 bg-gray-700 -z-0"></div>
+                <div class="z-10 w-full max-w-lg text-center">
+                    <div class="bg-gradient-to-r from-bdo-blue to-bdo-navy p-1 rounded-2xl shadow-2xl">
+                        <div class="bg-gray-800 p-6 rounded-xl">
+                            <div class="w-16 h-16 bg-white text-bdo-navy rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-3 border-4 border-bdo-blue">J</div>
+                            <h3 class="text-xl font-bold text-white">Jan</h3>
+                            <div class="text-bdo-blue text-sm font-semibold uppercase tracking-wider">Technologies Partner</div>
+                            <p class="text-gray-400 text-xs mt-1">Executive / Strategic</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="z-10 w-full max-w-lg text-center">
+                    <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl">
+                        <div class="w-14 h-14 bg-bdo-magenta text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-3">S</div>
+                        <h3 class="text-lg font-bold text-white">Sven</h3>
+                        <div class="text-bdo-magenta text-sm font-semibold uppercase tracking-wider">Integrations Squad Lead</div>
+                        <p class="text-gray-400 text-xs mt-1">Primary Sponsor & Direct Report</p>
+                    </div>
+                </div>
+                <div class="z-10 w-full max-w-5xl">
+                    <div class="bg-gray-800/50 p-8 rounded-3xl border border-gray-700 backdrop-blur-sm">
+                        <div class="text-center mb-6">
+                            <h4 class="text-gray-300 font-bold uppercase text-sm tracking-widest">Execution & Strategy Group</h4>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div class="bg-gray-800 p-4 rounded-xl border border-gray-600 text-center hover:bg-gray-700 transition">
+                                <div class="font-bold text-white text-lg">Aleksander</div>
+                                <div class="text-xs text-bdo-green font-medium uppercase mt-1">Business / Product Lead</div>
+                            </div>
+                            <div class="bg-gray-800 p-4 rounded-xl border border-gray-600 text-center hover:bg-gray-700 transition">
+                                <div class="font-bold text-white text-lg">Robin</div>
+                                <div class="text-xs text-bdo-cyan font-medium uppercase mt-1">Operations / Tech Lead</div>
+                            </div>
+                            <div class="bg-gray-800 p-4 rounded-xl border border-gray-600 text-center hover:bg-gray-700 transition">
+                                <div class="font-bold text-white text-lg">Nils</div>
+                                <div class="text-xs text-purple-400 font-medium uppercase mt-1">Data Squad Lead</div>
+                            </div>
+                            <div class="bg-gray-800 p-4 rounded-xl border border-gray-600 text-center hover:bg-gray-700 transition">
+                                <div class="font-bold text-white text-sm">Elias / Cedric / Steven</div>
+                                <div class="text-xs text-yellow-400 font-medium uppercase mt-1">AI Strategy</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-16 bg-white border-y border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Three Pillars of Value</h2>
+                    <p class="text-gray-600 mb-6">Our strategy isn't just about code; it's about financial transformation. We are shifting the budget composition from paying vendors to building assets.</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="w-3 h-3 rounded-full bg-bdo-blue mt-2 mr-3"></span>
+                            <div>
+                                <strong class="text-gray-900">Cost Elimination:</strong> 
+                                <span class="text-gray-600">Systematic exit from Outsystems to royalty-free Azure PaaS.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="w-3 h-3 rounded-full bg-bdo-green mt-2 mr-3"></span>
+                            <div>
+                                <strong class="text-gray-900">Internal Productization:</strong> 
+                                <span class="text-gray-600">Converting tools like "Data Eyes" into licensable IP for BDO Global.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="w-3 h-3 rounded-full bg-bdo-magenta mt-2 mr-3"></span>
+                            <div>
+                                <strong class="text-gray-900">New Revenue:</strong> 
+                                <span class="text-gray-600">Delivering custom web apps for external tenders (Luminus, Securitas).</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 rounded-2xl p-8 shadow-inner">
+                    <div class="chart-wrapper">
+                        <canvas id="valueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="roadmap" class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900">12-Month Execution Timeline</h2>
+                <p class="text-gray-600 mt-2">Sequenced for stability, followed by rapid scaling.</p>
+            </div>
+
+            <div class="relative">
+                <div class="timeline-line"></div>
+
+                <div class="relative mb-12">
+                    <div class="md:flex items-center w-full">
+                        <div class="order-1 md:w-5/12 md:text-right pr-8">
+                            <h3 class="text-lg font-bold text-gray-900">Initialization</h3>
+                            <p class="text-sm text-gray-500 font-mono">Week 0-2</p>
+                        </div>
+                        <div class="order-2 md:w-2/12 flex justify-center relative z-10 my-4 md:my-0">
+                            <div class="w-10 h-10 bg-gray-800 rounded-full border-4 border-gray-100 flex items-center justify-center shadow">
+                                <i class="fas fa-cogs text-white text-sm"></i>
+                            </div>
+                        </div>
+                        <div class="order-3 md:w-5/12 pl-8">
+                            <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-gray-800">
+                                <div class="flex justify-between mb-2">
+                                    <strong class="text-gray-800">Infrastructure & CI/CD</strong>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Prerequisite</span>
+                                </div>
+                                <p class="text-sm text-gray-600">Setup Azure Environments (Dev/Stage/Prod), Github Actions pipelines, and hard security constraints (DNS/Networking).</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative mb-12">
+                    <div class="md:flex items-center w-full">
+                        <div class="order-1 md:w-5/12 md:text-right pr-8">
+                            <h3 class="text-lg font-bold text-bdo-blue">Project A: Workflow UI</h3>
+                            <p class="text-sm text-gray-500 font-mono">Immediate (Active)</p>
+                        </div>
+                        <div class="order-2 md:w-2/12 flex justify-center relative z-10 my-4 md:my-0">
+                            <div class="w-10 h-10 bg-bdo-blue rounded-full border-4 border-white flex items-center justify-center shadow-lg">
+                                <i class="fas fa-play text-white text-sm"></i>
+                            </div>
+                        </div>
+                        <div class="order-3 md:w-5/12 pl-8">
+                            <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-bdo-blue">
+                                <div class="flex justify-between mb-2">
+                                    <strong class="text-gray-800">Tech Pilot & UI Rewrite</strong>
+                                    <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">In Flight</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">Evaluating lightweight stack (Alpine.js) to replace legacy React components. Goal: Zero regression.</p>
+                                <div class="text-xs text-gray-400"><i class="fas fa-clock mr-1"></i> Duration: ~2 weeks</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative mb-12">
+                    <div class="md:flex items-center w-full">
+                        <div class="order-1 md:w-5/12 md:text-right pr-8">
+                            <h3 class="text-lg font-bold text-bdo-green">Project B: CredentialsDB</h3>
+                            <p class="text-sm text-gray-500 font-mono">Month 1-3</p>
+                        </div>
+                        <div class="order-2 md:w-2/12 flex justify-center relative z-10 my-4 md:my-0">
+                            <div class="w-10 h-10 bg-bdo-green rounded-full border-4 border-white flex items-center justify-center shadow-lg">
+                                <i class="fas fa-globe text-white text-sm"></i>
+                            </div>
+                        </div>
+                        <div class="order-3 md:w-5/12 pl-8">
+                            <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-bdo-green">
+                                <div class="flex justify-between mb-2">
+                                    <strong class="text-gray-800">Global Migration</strong>
+                                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">Pending Budget</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">Migrating global knowledge portal from Outsystems. Includes "Gap Analysis" features. Critical for FinOps goals.</p>
+                                <div class="text-xs text-gray-400"><i class="fas fa-clock mr-1"></i> Effort: ~60 Days</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative mb-12">
+                    <div class="md:flex items-center w-full">
+                        <div class="order-1 md:w-5/12 md:text-right pr-8">
+                            <h3 class="text-lg font-bold text-bdo-cyan">Project C: Data Eyes</h3>
+                            <p class="text-sm text-gray-500 font-mono">Month 4-6</p>
+                        </div>
+                        <div class="order-2 md:w-2/12 flex justify-center relative z-10 my-4 md:my-0">
+                            <div class="w-10 h-10 bg-bdo-cyan rounded-full border-4 border-white flex items-center justify-center shadow-lg">
+                                <i class="fas fa-table text-white text-sm"></i>
+                            </div>
+                        </div>
+                        <div class="order-3 md:w-5/12 pl-8">
+                            <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-bdo-cyan">
+                                <div class="flex justify-between mb-2">
+                                    <strong class="text-gray-800">Web Evolution</strong>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Confirmed</span>
+                                </div>
+                                <p class="text-sm text-gray-600">Porting Audit Excel Add-ins to Web Arch. Decision pending: Custom App vs. Fabric SDK.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative mb-12">
+                    <div class="md:flex items-center w-full">
+                        <div class="order-1 md:w-5/12 md:text-right pr-8">
+                            <h3 class="text-lg font-bold text-gray-500">Project D: Automation</h3>
+                            <p class="text-sm text-gray-500 font-mono">Future (Q3)</p>
+                        </div>
+                        <div class="order-2 md:w-2/12 flex justify-center relative z-10 my-4 md:my-0">
+                            <div class="w-10 h-10 bg-gray-400 rounded-full border-4 border-white flex items-center justify-center shadow">
+                                <i class="fas fa-robot text-white text-sm"></i>
+                            </div>
+                        </div>
+                        <div class="order-3 md:w-5/12 pl-8">
+                            <div class="bg-white p-5 rounded-xl shadow-sm border-l-4 border-gray-400 opacity-80">
+                                <div class="flex justify-between mb-2">
+                                    <strong class="text-gray-800">Team Dashboard</strong>
+                                    <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Strategic</span>
+                                </div>
+                                <p class="text-sm text-gray-600">Custom dashboard for the Automation Team. Timing flexible based on license extensions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="md:flex items-center w-full">
+                        <div class="order-1 md:w-5/12 md:text-right pr-8">
+                            <h3 class="text-lg font-bold text-bdo-magenta">Project E: "The Whales"</h3>
+                            <p class="text-sm text-gray-500 font-mono">Pipeline Risks</p>
+                        </div>
+                        <div class="order-2 md:w-2/12 flex justify-center relative z-10 my-4 md:my-0">
+                            <div class="w-10 h-10 bg-bdo-magenta rounded-full border-4 border-white flex items-center justify-center shadow-lg animate-pulse">
+                                <i class="fas fa-exclamation text-white text-sm"></i>
+                            </div>
+                        </div>
+                        <div class="order-3 md:w-5/12 pl-8">
+                            <div class="bg-red-50 p-5 rounded-xl shadow-sm border-l-4 border-bdo-magenta">
+                                <div class="flex justify-between mb-2">
+                                    <strong class="text-red-900">Major Tenders</strong>
+                                    <span class="text-xs bg-red-200 text-red-800 px-2 py-1 rounded font-bold">High Impact</span>
+                                </div>
+                                <p class="text-sm text-red-800 mb-2">Luminus / Securitas. If won, these trigger immediate "Emergency Scaling" protocols.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="tech" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-10 text-center">The "Golden Path" Architecture</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold text-gray-900 flex items-center">
+                        <span class="bg-green-100 text-green-600 p-2 rounded-lg mr-3"><i class="fas fa-road"></i></span>
+                        Standard Stack (90% of Apps)
+                    </h3>
+                    <p class="text-gray-600">Optimized for Velocity and Developer Experience.</p>
+                    
+                    <div class="flex flex-col space-y-4">
+                        <div class="flex items-center p-4 bg-gray-50 rounded-lg border-l-4 border-bdo-blue">
+                            <div class="w-24 font-bold text-gray-900">Frontend</div>
+                            <div class="flex-1 text-gray-700">SvelteKit + TypeScript</div>
+                        </div>
+                        <div class="flex items-center p-4 bg-gray-50 rounded-lg border-l-4 border-bdo-cyan">
+                            <div class="w-24 font-bold text-gray-900">Style</div>
+                            <div class="flex-1 text-gray-700">Tailwind CSS</div>
+                        </div>
+                        <div class="flex items-center p-4 bg-gray-50 rounded-lg border-l-4 border-bdo-green">
+                            <div class="w-24 font-bold text-gray-900">Data</div>
+                            <div class="flex-1 text-gray-700">Prisma ORM</div>
+                        </div>
+                        <div class="flex items-center p-4 bg-gray-50 rounded-lg border-l-4 border-gray-600">
+                            <div class="w-24 font-bold text-gray-900">Host</div>
+                            <div class="flex-1 text-gray-700">Azure Static Web Apps</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold text-gray-900 flex items-center">
+                        <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3"><i class="fas fa-dumbbell"></i></span>
+                        Heavy Lifting (Macroservices)
+                    </h3>
+                    <p class="text-gray-600">Triggered by high concurrency or complex computation.</p>
+                    
+                    <div class="flex flex-col space-y-4">
+                        <div class="flex items-center p-4 bg-gray-50 rounded-lg border-l-4 border-purple-600">
+                            <div class="w-24 font-bold text-gray-900">Core</div>
+                            <div class="flex-1 text-gray-700">Go (Golang) REST APIs</div>
+                        </div>
+                        <div class="flex items-center p-4 bg-gray-50 rounded-lg border-l-4 border-purple-400">
+                            <div class="w-24 font-bold text-gray-900">Host</div>
+                            <div class="flex-1 text-gray-700">Azure Container Apps</div>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg mt-4">
+                            <h4 class="font-bold text-bdo-blue text-sm uppercase mb-2">Q1 Experiments (The Lab)</h4>
+                            <ul class="text-sm text-gray-700 space-y-2">
+                                <li><i class="fas fa-flask mr-2 text-gray-400"></i> <strong>Workflow UI:</strong> Testing Alpine.js + HTMX for lightweight apps.</li>
+                                <li><i class="fas fa-flask mr-2 text-gray-400"></i> <strong>CredentialsDB:</strong> Validating SvelteKit learning curve for interns.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="compliance" class="py-16 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8 text-center">Operational Guardrails & Compliance</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm border-l-8 border-blue-600 relative overflow-hidden">
+                    <div class="absolute right-0 top-0 p-4 text-blue-100 opacity-20">
+                        <i class="fab fa-microsoft text-9xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center relative z-10">
+                        <i class="fab fa-microsoft text-blue-600 mr-3"></i> Platform Mandate
+                    </h3>
+                    <p class="text-gray-600 mb-4 relative z-10">
+                        Strict strategic alignment with Microsoft. No deviations allowed.
+                    </p>
+                    <ul class="space-y-2 relative z-10">
+                        <li class="flex items-center text-sm text-gray-700">
+                            <i class="fas fa-cloud text-blue-400 mr-3 w-5"></i>
+                            <span><strong>Infrastructure:</strong> Azure Cloud Only</span>
+                        </li>
+                        <li class="flex items-center text-sm text-gray-700">
+                            <i class="fas fa-id-badge text-blue-400 mr-3 w-5"></i>
+                            <span><strong>Identity:</strong> Entra ID (Strictly Mandated)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border-l-8 border-red-500 relative overflow-hidden">
+                    <div class="absolute right-0 top-0 p-4 text-red-100 opacity-20">
+                        <i class="fas fa-shield-alt text-9xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center relative z-10">
+                        <i class="fas fa-shield-alt text-red-500 mr-3"></i> Security Protocol
+                    </h3>
+                    <div class="space-y-4 relative z-10">
+                        <div class="flex items-start">
+                            <span class="text-xs font-bold bg-gray-100 text-gray-600 px-2 py-1 rounded uppercase mr-3 mt-0.5 w-20 text-center">Standard</span>
+                            <p class="text-sm text-gray-600">Follow industry best practices (OWASP Top 10, Secure Headers).</p>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-xs font-bold bg-red-100 text-red-600 px-2 py-1 rounded uppercase mr-3 mt-0.5 w-20 text-center">High-Risk</span>
+                            <p class="text-sm text-gray-800 font-medium">Mandatory annual penetration tests by external vendor.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
+                        <i class="fas fa-user-shield text-bdo-green mr-2"></i> GDPR
+                    </h3>
+                    <p class="text-sm text-gray-600">
+                        <strong>Collaborative Approach.</strong> The DPO acts as a consultant/resource rather than a strict gatekeeper for every line of code.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
+                        <i class="fas fa-universal-access text-bdo-cyan mr-2"></i> Accessibility
+                    </h3>
+                    <p class="text-sm text-gray-600">
+                        Focus is on <strong>Usability</strong> rather than strict legal certification (WCAG) because most tools are internal or B2B.
+                    </p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-900 mb-3 flex items-center">
+                        <i class="fas fa-language text-bdo-magenta mr-2"></i> Localization
+                    </h3>
+                    <p class="text-sm text-gray-600">
+                        Stack must support <strong>Trilingual Delivery</strong> (FR/NL/EN). 
+                        <br><span class="text-xs text-gray-400 mt-1 block">English is the default dev language.</span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="governance" class="py-20 bg-bdo-navy text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white">Governance & Operating Model</h2>
+                <p class="text-blue-200 mt-2">How we align strategy with execution.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/10">
+                    <h3 class="text-xl font-bold text-bdo-green mb-4">Solution Triad Model</h3>
+                    <p class="text-sm text-gray-300 mb-4">To ensure we build the *right* thing, every initiative is led by this trio.</p>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center text-xs font-bold mr-3 flex-shrink-0">1</span>
+                            <div>
+                                <strong class="block text-white">The Bridge (Aleksander)</strong>
+                                <span class="text-xs text-gray-400">Proxy PO. Translates business goals into specs.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center text-xs font-bold mr-3 flex-shrink-0">2</span>
+                            <div>
+                                <strong class="block text-white">Tech Validator (Robin)</strong>
+                                <span class="text-xs text-gray-400">Feasibility check before commitment.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs font-bold mr-3 flex-shrink-0">3</span>
+                            <div>
+                                <strong class="block text-white">The Client (SME)</strong>
+                                <span class="text-xs text-gray-400">Defines success criteria (Engagement Partner).</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/10">
+                    <h3 class="text-xl font-bold text-bdo-cyan mb-4">Financial Powers</h3>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-start">
+                            <i class="fas fa-money-bill-wave text-green-400 mt-1 mr-3"></i>
+                            <div>
+                                <strong class="text-white">Zero-Based Budgeting</strong>
+                                <p class="text-gray-400">No standing budget. Every project needs a distinct business case.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-user-plus text-green-400 mt-1 mr-3"></i>
+                            <div>
+                                <strong class="text-white">Hiring Rigor</strong>
+                                <p class="text-gray-400">FTE requests require Steering + HR + Board approval.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-gavel text-green-400 mt-1 mr-3"></i>
+                            <div>
+                                <strong class="text-white">Quarterly Vote</strong>
+                                <p class="text-gray-400">Committee votes on roadmap priorities every quarter.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/10">
+                    <h3 class="text-xl font-bold text-white mb-4"><i class="fas fa-sync-alt mr-2 text-bdo-blue"></i> The Rhythm</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-center">
+                            <span class="w-8 h-8 rounded bg-blue-600 flex items-center justify-center mr-3 font-bold text-sm">1w</span>
+                            <div>
+                                <strong class="block">Sprint Length</strong>
+                                <span class="text-sm text-gray-300">Weekly cadence for rapid iteration.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-8 h-8 rounded bg-blue-600 flex items-center justify-center mr-3 text-sm"><i class="fas fa-users"></i></span>
+                            <div>
+                                <strong class="block">Rituals</strong>
+                                <span class="text-sm text-gray-300">Daily Standup (15m), Weekly Planning, Bi-Weekly Demos.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-center">
+                            <span class="w-8 h-8 rounded bg-blue-600 flex items-center justify-center mr-3 text-sm"><i class="fas fa-sort-amount-up"></i></span>
+                            <div>
+                                <strong class="block">Prioritization</strong>
+                                <span class="text-sm text-gray-300">MOSCOW Method (Must, Should, Could, Won't).</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/10">
+                    <h3 class="text-xl font-bold text-white mb-4"><i class="fas fa-clipboard-check mr-2 text-bdo-blue"></i> Definition of Done</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-sm">
+                            <i class="fas fa-check-circle text-green-400 mr-3"></i> Unit Tests Passed (Vitest)
+                        </li>
+                        <li class="flex items-center text-sm">
+                            <i class="fas fa-check-circle text-green-400 mr-3"></i> E2E Smoke Test (Playwright)
+                        </li>
+                        <li class="flex items-center text-sm">
+                            <i class="fas fa-check-circle text-green-400 mr-3"></i> Lighthouse Score > 90 (Perf/a11y)
+                        </li>
+                        <li class="flex items-center text-sm">
+                            <i class="fas fa-check-circle text-green-400 mr-3"></i> Peer Code Review (Robin)
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+   <section id="team" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Resource Model</h2>
+                    <p class="text-gray-600 mb-6">A Dual-Leadership model bridging business goals with technical execution.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-bdo-blue rounded-lg flex items-center justify-center text-white font-bold">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <div class="font-bold text-gray-900">Aleks</div>
+                                    <div class="text-xs text-gray-500 uppercase">Business Lead</div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600 italic">"The Bridge" & Proxy PO. Translates goals into specs.</p>
+                        </div>
+                        <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-bdo-cyan rounded-lg flex items-center justify-center text-white font-bold">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <div class="font-bold text-gray-900">Robin</div>
+                                    <div class="text-xs text-gray-500 uppercase">Tech Lead</div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-600 italic">Lead Architect & Interim UX. Primary engineering capacity.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-100 p-4 rounded-xl border border-gray-200 mb-6">
+                        <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3">Strategic Reserves & Support</h3>
+                        <div class="flex flex-col space-y-2 text-sm">
+                            <div class="flex items-center">
+                                <i class="fas fa-plug text-gray-400 w-6 text-center mr-2"></i>
+                                <span class="font-bold text-gray-800 mr-2">Cedric Wens:</span>
+                                <span class="text-gray-600">Technical Support / Surge Capacity</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-briefcase text-gray-400 w-6 text-center mr-2"></i>
+                                <span class="font-bold text-gray-800 mr-2">Taulant Aslanni:</span>
+                                <span class="text-gray-600">Business / Functional Support</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-xl shadow-sm mb-6 border-l-4 border-green-400">
+                        <h3 class="text-sm font-bold text-green-800 mb-2">Q1 Expansion (Internship Injection)</h3>
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <strong class="block text-gray-900"><i class="fas fa-server text-green-500 mr-1"></i> Stijn</strong>
+                                <span class="text-xs text-gray-500">Backend / Go / Macroservices</span>
+                            </div>
+                            <div>
+                                <strong class="block text-gray-900"><i class="fas fa-laptop-code text-green-500 mr-1"></i> Dries</strong>
+                                <span class="text-xs text-gray-500">Frontend / SvelteKit</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg--50 p-4 rounded-xl border border-blue-200">
+                            <h3 class="font-bold text-blue-900 mb-2 text-sm"><i class="fas fa-seedling mr-1"></i> Growth: "Lean & Elastic"</h3>
+                            <ul class="text-xs text-blue-800 space-y-1">
+                                <li>• Hire <strong>"T-Shaped" Generalists</strong></li>
+                                <li>• Avoid siloed specialists early on.</li>
+                                <li>• Prioritize Interns or Students over expensive FTEs.</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200">
+                            <h3 class="font-bold text-yellow-900 mb-2 text-sm"><i class="fas fa-exclamation-triangle mr-1"></i> "The Whale" Trigger</h3>
+                            <p class="text-xs text-yellow-800 mb-1"><strong>Scenario:</strong> Winning large tender (Luminus).</p>
+                            <ul class="text-xs text-yellow-800 space-y-1">
+                                <li>• <strong>Hire:</strong> 1 FTE.</li>
+                                <li>• <strong>Loan:</strong> Backend dev from Integrations.</li>
+                                <li>• <strong>Hire:</strong> Dedicated UX/UI (Budget permitting).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Risk Monitor</h2>
+                    <p class="text-gray-600 mb-6">The team has identified four critical risks and defined specific mitigation strategies.</p>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-sm mb-6">
+                        <div class="chart-wrapper" style="height: 250px;">
+                            <canvas id="riskChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        
+                        <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-red-500">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-gray-900">The "Bus Factor"</h4>
+                                <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded uppercase">High</span>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-2">
+                                Squad relies on a single FTE (Robin) for architecture/coding. If unavailable, delivery halts.
+                            </p>
+                            <div class="bg-red-50 p-2 rounded text-xs text-red-900 border border-red-100">
+                                <strong>Mitigation:</strong> Aggressive documentation & rapid knowledge transfer to Q1 interns.
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-red-500">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-gray-900">Pipeline Volatility</h4>
+                                <span class="bg-red-100 text-red-800 text-xs font-bold px-2 py-1 rounded uppercase">High</span>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-2">
+                                Major tenders (e.g., Luminus) create "Capacity Shocks." Winning one triggers immediate need for senior capacity.
+                            </p>
+                            <div class="bg-red-50 p-2 rounded text-xs text-red-900 border border-red-100">
+                                <strong>Mitigation:</strong> Pre-agreement to "loan" backend resources & defined "Emergency Hiring" trigger.
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-orange-400">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-gray-900">Maintenance Trap</h4>
+                                <span class="bg-orange-100 text-orange-800 text-xs font-bold px-2 py-1 rounded uppercase">Med/Long</span>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-2">
+                                Shifting from Low-Code to Custom Code moves burden to squad, potentially consuming capacity.
+                            </p>
+                            <div class="bg-orange-50 p-2 rounded text-xs text-orange-900 border border-orange-100">
+                                <strong>Mitigation:</strong> Strict "Standard Stack" adherence & allocating <strong>20% of every sprint</strong> to tech debt.
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-yellow-400">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-bold text-gray-900">Talent Ramp-Up</h4>
+                                <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-1 rounded uppercase">Medium</span>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-2">
+                                Goals assume interns are productive within 4 weeks. Excessive hand-holding could decrease net velocity.
+                            </p>
+                            <div class="bg-yellow-50 p-2 rounded text-xs text-yellow-900 border border-yellow-100">
+                                <strong>Mitigation:</strong> Isolation strategy. Assigning non-critical modules (CredentialsDB) for first sprint.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+    </section>
+
+    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8">
+                <h3 class="text-white font-bold text-lg mb-4">Partner Ecosystem</h3>
+                <div class="flex flex-wrap justify-center gap-6">
+                    <span class="px-4 py-2 bg-gray-800 rounded-full border border-gray-700"><i class="fas fa-database mr-2"></i> Data Squad (Fabric)</span>
+                    <span class="px-4 py-2 bg-gray-800 rounded-full border border-gray-700"><i class="fas fa-robot mr-2"></i> AI Squad (Generative Models)</span>
+                    <span class="px-4 py-2 bg-gray-800 rounded-full border border-gray-700"><i class="fas fa-plug mr-2"></i> Integrations Squad (Gateways)</span>
+                </div>
+            </div>
+            <div class="text-center text-sm border-t border-gray-800 pt-8">
+                <p>&copy; 2025 Web Development Squad Strategy. Confidential.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const palette = {
+                blue: '#00A0F0',
+                green: '#00F0B5',
+                magenta: '#F000A0',
+                cyan: '#00E0F0',
+                navy: '#0c4a6e'
+            };
+
+            // Value Chart (Donut)
+            const valCtx = document.getElementById('valueChart');
+            new Chart(valCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Cost Elimination', 'Internal Products', 'New Revenue'],
+                    datasets: [{
+                        data: [33, 33, 33],
+                        backgroundColor: [palette.blue, palette.green, palette.magenta],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const labels = [
+                                        'Exit Outsystems License',
+                                        'Data Eyes IP',
+                                        'Luminus/Securitas Tenders'
+                                    ];
+                                    return labels[context.dataIndex];
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+          // Risk Chart (Radar) - Updated with specific risks
+    const riskCtx = document.getElementById('riskChart');
+    new Chart(riskCtx, {
+        type: 'radar',
+        data: {
+            labels: ['Bus Factor', 'Pipeline Volatility', 'Maintenance Trap', 'Talent Ramp-Up'],
+            datasets: [{
+                label: 'Risk Severity (1-10)',
+                data: [9, 9, 7, 6], // High, High, Med/Long, Medium
+                fill: true,
+                backgroundColor: 'rgba(240, 0, 160, 0.2)',
+                borderColor: '#F000A0',
+                pointBackgroundColor: '#F000A0',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: '#F000A0'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: { color: '#e2e8f0' },
+                    grid: { color: '#e2e8f0' },
+                    pointLabels: {
+                        font: { size: 11, weight: 'bold', family: 'Inter' },
+                        color: '#4b5563'
+                    },
+                    suggestedMin: 0,
+                    suggestedMax: 10,
+                    ticks: { display: false } // Clean look
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+        });
+    </script>
+</body>
+</html>
